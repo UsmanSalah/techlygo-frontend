@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techlygo — Технологии будущего</title>
+    <link rel="icon" href="images/ikons.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --accent-color: #00BCD4;
+            --text-color: #ffffff;
+            --card-bg: #1e293b;
+            --border-radius: 16px;
+            --padding: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #1A237E, #ECEFF1);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        header, footer {
+            background-color: rgba(30, 41, 59, 0.8);
+            padding: var(--padding);
+            text-align: center;
+            border-bottom: 1px solid var(--accent-color);
+            position: relative;
+        }
+
+        header .icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #00BCD4, #AB47BC);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.5);
+            transition: transform 0.3s;
+        }
+
+        header .icon:hover {
+            transform: scale(1.1);
+        }
+
+        header .icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        header img {
+            height: 80px;
+            width: auto;
+            max-width: 200px;
+            transition: transform 0.3s;
+            margin-left: 70px; /* Смещаем логотип вправо из-за иконки */
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-top: 0.5rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            position: sticky;
+            top: 0;
+            background-color: rgba(30, 41, 59, 0.9);
+            padding: 1rem 0;
+            z-index: 999;
+        }
+
+        nav a {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            text-decoration: none;
+            background: linear-gradient(45deg, #00BCD4, #AB47BC);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        nav a:hover {
+            background: linear-gradient(45deg, #AB47BC, #8E24AA);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.5);
+        }
+
+        .container {
+            padding: var(--padding);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            display: none;
+            padding: var(--padding) 0;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card, .products, .cart-table, .reviews {
+            background-color: var(--card-bg);
+            padding: var(--padding);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            margin-bottom: var(--padding);
+            text-align: center;
+        }
+
+        .card h2, .products h2, .reviews h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+        }
+
+        button {
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #00BCD4, #AB47BC);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1rem 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #AB47BC, #8E24AA);
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.5);
+        }
+
+        .add-to-cart {
+            margin-top: 10px;
+            position: relative;
+        }
+        .add-to-cart:hover::after {
+            content: "Нажмите, чтобы добавить в корзину";
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .checkout-btn {
+            margin-top: 20px;
+            position: relative;
+        }
+        .checkout-btn:hover::after {
+            content: "Оформите заказ здесь";
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--padding);
+        }
+
+        .product-card {
+            text-align: center;
+            background: linear-gradient(135deg, #2a3448, #1e293b);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0, 188, 212, 0.5);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-table th {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--accent-color);
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #cbd5e1;
+        }
+
+        .cart-delivery {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+        }
+
+        .cube {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+        }
+
+        .cube div {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 2px solid var(--accent-color);
+            background: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .cube .front { transform: translateZ(75px); }
+        .cube .back { transform: translateZ(-75px) rotateY(180deg); }
+        .cube .right { transform: rotateY(90deg) translateZ(75px); }
+        .cube .left { transform: rotateY(-90deg) translateZ(75px); }
+        .cube .top { transform: rotateX(90deg) translateZ(75px); }
+        .cube .bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+        @keyframes rotate {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            border: 2px solid #00BCD4;
+            border-radius: var(--border-radius);
+            background-color: #1e293b;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+
+        .filters {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #00BCD4;
+            border-radius: 10px;
+            background-color: #1e293b;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 1.2rem;
+            border: 3px solid #00BCD4;
+            border-radius: 10px;
+            background-color: #1e293b;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.7);
+            transition: box-shadow 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            box-shadow: 0 0 20px rgba(0, 188, 212, 1);
+            outline: none;
+        }
+
+        textarea {
+            height: 200px;
+            resize: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #00BCD4, #AB47BC);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.8);
+            z-index: 1000;
+            display: none;
+            font-size: 1.2rem;
+            animation: fadeInOut 2.5s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -10px); }
+            10% { opacity: 1; transform: translate(-50%, 0); }
+            90% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, 10px); }
+        }
+
+        .checkout-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .checkout-form.active {
+            display: block;
+        }
+
+        .payment-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .payment-form.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .payment-option {
+            margin: 20px 0;
+            padding: 20px;
+            background: #1e293b;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .payment-method {
+            margin: 10px 0;
+        }
+
+        .payment-method button {
+            width: 30%;
+            margin-right: 5%;
+            padding: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .payment-method button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #AB47BC, #8E24AA);
+        }
+
+        #paymentProgress {
+            width: 0;
+            height: 5px;
+            background: #00BCD4;
+            transition: width 0.5s;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            display: none;
+            color: #4CAF50;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 1s;
+        }
+
+        .reviews .review {
+            margin: 15px 0;
+            padding: 10px;
+            background: #2a3448;
+            border-radius: var(--border-radius);
+        }
+
+        .review-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .review-form.active {
+            display: block;
+        }
+
+        .social-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .social-buttons a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #00BCD4, #AB47BC);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .social-buttons a:hover {
+            background: linear-gradient(45deg, #AB47BC, #8E24AA);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(171, 71, 188, 0.5);
+        }
+
+        .social-buttons .whatsapp {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+
+        .social-buttons .whatsapp:hover {
+            background: linear-gradient(45deg, #128C7E, #25D366);
+        }
+
+        #tawkchat-minified {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            header img { height: 60px; max-width: 150px; }
+            header p { font-size: 1rem; }
+            nav a { font-size: 0.95rem; padding: 0.5rem 1rem; }
+            .card h2 { font-size: 1.5rem; }
+            .cube { width: 100px; height: 100px; }
+            .cube div { width: 100px; height: 100px; }
+            .contact-container { flex-direction: column; }
+            .social-buttons { flex-direction: column; }
+            .payment-method button { width: 45%; margin-right: 5%; }
+            .filters { flex-direction: column; }
+            header .icon { width: 50px; height: 50px; }
+            header .icon svg { width: 30px; height: 30px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=your_paypal_client_id¤cy=KGS"></script>
+    <script src="https://embed.tawk.to/63f8a2b1649e0a0011c8a0f5/1gq0p8k8q"></script>
+</head>
+<body>
+    <header>
+        <div style="position: absolute; top: 20px; left: 20px; z-index: 999;">
+  <div style="
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2D9CDB, #6E3BEC);
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  ">
+    <img src="images/ikon.png" alt="Techlygo Logo" style="
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: #0F1E35;
+      padding: 4px;
+    " />
+  </div>
+</div>
+
+        <img src="images/eagle.png" alt="Techlygo Logo" style="height: 80px;">
+        <p>Технологии будущего — для тебя!</p>
+        <nav>
+            <a href="#" onclick="showSection('home')">Главная</a>
+            <a href="#" onclick="showSection('shop')">Магазин</a>
+            <a href="#" onclick="showSection('contact')">Контакты</a>
+            <a href="#" onclick="showSection('cart')">Корзина</a>
+            <a href="#" onclick="showSection('deals')">Акции</a>
+            <a href="#" onclick="showSection('reviews')">Отзывы</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Главная -->
+        <div id="home" class="section active">
+            <div class="card">
+                <h2>Добро пожаловать в Techlygo!</h2>
+                <p>Исследуй передовые гаджеты, световые устройства и товары для здоровья из Китая, доставляемые в Кыргызстан. Скидки до 20% на старте и розыгрыш подарков каждую неделю!</p>
+                <div class="cube">
+                    <div class="front"></div>
+                    <div class="back"></div>
+                    <div class="right"></div>
+                    <div class="left"></div>
+                    <div class="top"></div>
+                    <div class="bottom"></div>
+                </div>
+                <button onclick="showSection('shop')">Открыть магазин</button>
+                <div class="social-buttons">
+                    <a href="https://wa.me/996558001311" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="https://t.me/Techlogy_official" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+                </div>
+            </div>
+        </div>
+        <!-- Магазин -->
+         <div id="products"></div>
+        <div id="shop" class="section">
+            <h2>Магазин</h2>
+            <input type="text" class="search-bar" placeholder="Поиск по названию..." onkeyup="searchProducts()">
+            <div class="filters">
+                <select class="filter-select" onchange="filterProducts('category', this.value)">
+                    <option value="">Все категории</option>
+                    <option value="gadgets">Гаджеты</option>
+                    <option value="light">Свет</option>
+                    <option value="health">Здоровье</option>
+                    <option value="accessories">Аксессуары</option>
+                </select>
+                <select class="filter-select" onchange="filterProducts('price', this.value)">
+                    <option value="">Цена</option>
+                    <option value="0-10000">До 10,000 KGS</option>
+                    <option value="10000-20000">10,000 - 20,000 KGS</option>
+                    <option value="20000+">От 20,000 KGS</option>
+                </select>
+                <select class="filter-select" onchange="sortProducts(this.value)">
+                    <option value="">Сортировка</option>
+                    <option value="newest">По новизне</option>
+                    <option value="price-asc">По цене (возр.)</option>
+                    <option value="price-desc">По цене (убыв.)</option>
+                </select>
+            </div>
+            <div class="products" id="productList"></div>
+            <div class="social-buttons">
+                <a href="https://wa.me/996700123456" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://t.me/Techlogy_official" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+            </div>
+            <button onclick="refreshProducts()" style="margin-top: 20px;">Обновить товары</button>
+        </div>
+
+        <!-- Контакты -->
+        <div id="contact" class="section">
+            <div class="contact-container">
+                <div class="contact-card">
+                    <h2 style="color: #00BCD4; text-shadow: 0 0 10px #00BCD4;">Свяжитесь с нами</h2>
+                    <p style="color: #cbd5e1; margin-bottom: 20px;">Оставьте заявку или задайте вопрос — мы ответим в кратчайшие сроки!</p>
+                    <form id="contactForm" action="https://formspree.io/f/xpwrrqlk" method="POST">
+                        <input type="text" name="name" placeholder="Ваше имя" required>
+                        <input type="email" name="email" placeholder="Ваш email" required>
+                        <textarea name="message" placeholder="Ваше сообщение" required></textarea>
+                        <button type="submit">Отправить сообщение</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h2 style="color: #00BCD4; text-shadow: 0 0 10px #00BCD4;">Наша информация</h2>
+                    <p style="color: #cbd5e1; margin-bottom: 15px;">Бишкек<br>Офис пока виртуальный!</p>
+                    <p style="color: #cbd5e1;">Телефон: +996 550 305 534<br>Email: salahidinovusman3@gmail.com</p>
+                    <a href="https://t.me/Techlogy_official" target="_blank" style="display: inline-block; padding: 10px 20px; margin-top: 15px; background: #00BCD4; color: white; text-decoration: none; border-radius: 10px; transition: background 0.3s;">Написать в Telegram</a>
+                </div>
+            </div>
+            <div class="cube" style="margin: 40px auto;">
+                <div class="front"></div>
+                <div class="back"></div>
+                <div class="right"></div>
+                <div class="left"></div>
+                <div class="top"></div>
+                <div class="bottom"></div>
+            </div>
+        </div>
+        <div id="shop" class="section">
+    <h2>Магазин</h2>
+    <div id="shop-content"></div>
+</div>
+
+<script>
+    fetch('shop.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('shop-content').innerHTML = html;
+        })
+        .catch(error => console.error('Ошибка загрузки shop.html:', error));
+</script>
+
+        <!-- Корзина -->
+        <div id="cart" class="section">
+            <h2>Корзина</h2>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody id="cartItems"></tbody>
+            </table>
+            <div class="cart-total">Общая сумма: <span id="totalPrice">0 KGS</span></div>
+            <div class="cart-delivery">
+                Доставка: 
+                <select id="deliveryOption" onchange="updateTotal()">
+                    <option value="0">Самовывоз (0 KGS)</option>
+                    <option value="500">Курьер (500 KGS)</option>
+                </select>
+            </div>
+            <button class="checkout-btn" onclick="toggleCheckout()">Оформить заказ</button>
+            <div class="checkout-form" id="checkoutForm">
+                <h3 style="color: #00BCD4; text-shadow: 0 0 10px #00BCD4;">Оформление заказа</h3>
+                <form id="orderForm">
+                    <input type="text" name="name" placeholder="Ваше имя" required>
+                    <input type="text" name="address" placeholder="Адрес доставки" required>
+                    <input type="tel" name="phone" placeholder="Ваш телефон" required>
+                    <textarea name="comment" placeholder="Комментарий к заказу" required></textarea>
+                    <select name="delivery" required>
+                        <option value="" disabled selected>Выберите способ доставки</option>
+                        <option value="courier">Курьер (500 KGS)</option>
+                        <option value="pickup">Самовывоз (Бесплатно)</option>
+                    </select>
+                    <button type="submit" style="margin-top: 20px;">Подтвердить заказ</button>
+                </form>
+                <div class="payment-form" id="paymentForm">
+                    <h3 style="color: #00BCD4; text-shadow: 0 0 10px #00BCD4;">Выберите способ оплаты</h3>
+                    <div class="payment-method">
+                        <button onclick="showPaymentMethod('stripe')">Stripe</button>
+                        <button onclick="showPaymentMethod('paypal')">PayPal</button>
+                        <button onclick="showPaymentMethod('bank')">Банковский перевод</button>
+                    </div>
+                    <div id="paymentProgress"></div>
+                    <div id="stripe-payment" class="payment-option">
+                        <form id="paymentStripe">
+                            <input type="text" id="cardholder-name" placeholder="Имя на карте" required>
+                            <div id="card-element" style="margin: 10px 0; padding: 10px; border: 2px solid #00BCD4; border-radius: 10px;"></div>
+                            <button type="submit" style="margin-top: 20px;">Оплатить</button>
+                        </form>
+                        <div id="successMessage" class="success-message"></div>
+                    </div>
+                    <div id="paypal-payment" class="payment-option" style="display: none;">
+                        <div id="paypal-button-container"></div>
+                        <div id="successMessage" class="success-message"></div>
+                    </div>
+                    <div id="bank-payment" class="payment-option" style="display: none;">
+                        <form id="bankTransferForm">
+                            <input type="text" name="account-number" placeholder="Номер счёта" required>
+                            <input type="text" name="amount" placeholder="Сумма" required>
+                            <textarea name="transfer-comment" placeholder="Комментарий к переводу" required></textarea>
+                            <button type="submit" style="margin-top: 20px;">Отправить данные перевода</button>
+                        </form>
+                        <div id="successMessage" class="success-message"></div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="togglePayment()" style="margin-top: 10px;">Перейти к оплате</button>
+            <button onclick="refreshCart()" style="margin-top: 10px;">Обновить корзину</button>
+        </div>
+        <section id="qr-bot" class="qr-section">
+  <h2>🎁 Участвуй в розыгрыше от <span class="gradient-text">Techlygo</span>!</h2>
+  <p>Сканируй QR-код или нажми кнопку, чтобы запустить <strong>колесо удачи</strong> и выиграть подарки 💥</p>
+
+  <div class="qr-content">
+    <div class="qr-wrapper">
+      <img src="images/techlygo_telegram_bot_qr.png" alt="QR Techlygo Bot">
+    </div>
+    <div class="qr-info">
+      <ul>
+        <li>🎯 Получи шанс выиграть каждую неделю</li>
+        <li>📦 Чем больше покупок — тем больше попыток</li>
+        <li>🤖 Всё в Telegram — быстро и удобно</li>
+      </ul>
+      <a href="https://t.me/TechlygoLuckBot" target="_blank" class="qr-btn">
+        🚀 Перейти в Telegram бота
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+        <!-- Акции -->
+        <div id="deals" class="section">
+            <h2>Акции</h2>
+            <p>Скидки до 20% на старте! Участвуйте в розыгрыше подарков каждую неделю!</p>
+            <div class="products" id="dealList"></div>
+            <div class="social-buttons">
+                <a href="https://wa.me/996700123456" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="https://t.me/Techlogy_official" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+            </div>
+            <button onclick="refreshDeals()" style="margin-top: 20px;">Обновить акции</button>
+        </div>
+
+        <!-- Отзывы -->
+        <div id="reviews" class="section">
+            <h2>Отзывы</h2>
+            <div class="reviews" id="reviewList"></div>
+            <button onclick="toggleReviewForm()" style="margin-top: 20px;">Оставить отзыв</button>
+            <div class="review-form" id="reviewForm">
+                <form id="reviewSubmitForm">
+                    <input type="text" name="name" placeholder="Ваше имя" required>
+                    <input type="text" name="location" placeholder="Ваш город" required>
+                    <textarea name="review" placeholder="Ваш отзыв" required></textarea>
+                    <button type="submit">Отправить отзыв</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Админ-панель -->
+        <div id="admin" class="section">
+            <h2>Админ-панель</h2>
+            <div class="admin-panel">
+                <form id="addProductForm" onsubmit="addProduct(event)">
+                    <div class="product-form">
+                        <input type="text" id="productName" placeholder="Название товара" required>
+                        <input type="text" id="productImage" placeholder="URL изображения" required>
+                        <input type="number" id="productPrice" placeholder="Цена (KGS)" required>
+                        <input type="text" id="productCategory" placeholder="Категория" required>
+                        <textarea id="productDescription" placeholder="Описание" required></textarea>
+                        <button type="submit">Добавить товар</button>
+                    </div>
+                </form>
+                <h3>Список товаров</h3>
+                <div id="productListAdmin"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Techlygo. Все права защищены.
+    </footer>
+
+    <div class="notification" id="notification">Товар добавлен в корзину!</div>
+
+    <script>
+        const BASE_URL = 'http://localhost:3000'; // URL вашего бэкенд-сервера
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            if (sectionId === 'admin') {
+                if (!checkAdminPassword()) {
+                    showNotification('Доступ запрещен!');
+                    return;
+                }
+                document.getElementById('admin').classList.add('active');
+                displayAdminProducts();
+            } else {
+                document.getElementById(sectionId)?.classList.add('active');
+                if (sectionId === 'shop') refreshProducts();
+                else if (sectionId === 'cart') refreshCart();
+                else if (sectionId === 'deals') refreshDeals();
+                else if (sectionId === 'reviews') loadReviews();
+            }
+        }
+
+        let cart = [];
+        function addToCart(productId, price) {
+            const item = { productId, price, quantity: 1 };
+            cart.push(item);
+            updateCart();
+            showNotification();
+            saveCart(); // Сохраняем корзину на сервере
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.productId}</td>
+                    <td>${item.price} KGS</td>
+                    <td>${item.quantity}</td>
+                    <td><button onclick="removeItem(${cart.indexOf(item)})">Удалить</button></td>
+                `;
+                cartItems.appendChild(row);
+                total += item.price * item.quantity;
+            });
+            const deliveryCost = parseInt(document.getElementById('deliveryOption').value) || 0;
+            document.getElementById('totalPrice').textContent = `${total + deliveryCost} KGS`;
+            toggleCheckout();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+            saveCart(); // Обновляем корзину на сервере
+        }
+
+        function updateTotal() {
+            updateCart();
+        }
+
+        function searchProducts() {
+            const input = document.querySelector('.search-bar').value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const name = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                card.style.display = name.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        function filterProducts(type, value) {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                let show = true;
+                if (type === 'category') {
+                    show = value === '' || card.getAttribute('data-category') === value;
+                } else if (type === 'price') {
+                    const price = parseInt(card.getAttribute('data-price'));
+                    if (value === '0-10000') show = price <= 10000;
+                    else if (value === '10000-20000') show = price > 10000 && price <= 20000;
+                    else if (value === '20000+') show = price > 20000;
+                    else show = true;
+                }
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function sortProducts(value) {
+            const productList = document.getElementById('productList');
+            const productCards = Array.from(productList.getElementsByClassName('product-card'));
+            productCards.sort((a, b) => {
+                if (value === 'newest') {
+                    return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date'));
+                } else if (value === 'price-asc') {
+                    return parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price'));
+                } else if (value === 'price-desc') {
+                    return parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price'));
+                }
+                return 0;
+            });
+            productCards.forEach(card => productList.appendChild(card));
+        }
+
+        function showNotification(message = "Товар добавлен в корзину!") {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2500);
+        }
+
+        function toggleCheckout() {
+            const checkoutForm = document.getElementById('checkoutForm');
+            checkoutForm.classList.toggle('active');
+            const paymentForm = document.getElementById('paymentForm');
+            paymentForm.classList.remove('active');
+        }
+
+        function togglePayment() {
+            const paymentForm = document.getElementById('paymentForm');
+            paymentForm.classList.toggle('active');
+            showPaymentMethod('stripe');
+        }
+
+        function showPaymentMethod(method) {
+            const options = ['stripe-payment', 'paypal-payment', 'bank-payment'];
+            options.forEach(opt => {
+                document.getElementById(opt).style.display = opt === `${method}-payment` ? 'block' : 'none';
+            });
+            if (method === 'paypal') initPayPalButton();
+            document.getElementById('paymentProgress').style.width = '0';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function toggleReviewForm() {
+            const reviewForm = document.getElementById('reviewForm');
+            reviewForm.classList.toggle('active');
+        }
+
+        function refreshProducts() {
+            fetch(`${BASE_URL}/api/products`)
+                .then(response => response.json())
+                .then(products => {
+                    const productList = document.getElementById('productList');
+                    productList.innerHTML = products.map(product => `
+                        <div class="product-card" data-category="${product.category}" data-price="${product.price}" data-date="${product.date}">
+                            <img src="${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>Цена: ${product.price} KGS</p>
+                            <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price})">Добавить</button>
+                        </div>
+                    `).join('');
+                    showNotification("Товары обновлены!");
+                })
+                .catch(error => showNotification('Ошибка загрузки товаров.'));
+        }
+
+        function refreshCart() {
+            updateCart();
+            showNotification("Корзина обновлена!");
+        }
+
+        function refreshDeals() {
+            fetch(`${BASE_URL}/api/products/deals`)
+                .then(response => response.json())
+                .then(products => {
+                    const dealList = document.getElementById('dealList');
+                    dealList.innerHTML = products.map(product => `
+                        <div class="product-card" data-category="${product.category}" data-price="${product.price}" data-date="${product.date}">
+                            <img src="${product.image}" alt="${product.name}">
+                            <h3>${product.name} (Скидка ${product.discount || 0}%)</h3>
+                            <p><span class="original-price">${product.originalPrice || product.price} KGS</span> <span class="discount-price">${product.price} KGS</span></p>
+                            <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price})">Купить</button>
+                        </div>
+                    `).join('');
+                    showNotification("Акции обновлены!");
+                })
+                .catch(error => showNotification('Ошибка загрузки акций.'));
+        }
+
+        function loadReviews() {
+            fetch(`${BASE_URL}/api/reviews`)
+                .then(response => response.json())
+                .then(reviews => {
+                    const reviewList = document.getElementById('reviewList');
+                    reviewList.innerHTML = reviews.map(review => `
+                        <div class="review">${review.text} — ${review.name}, ${review.location}</div>
+                    `).join('');
+                })
+                .catch(error => showNotification('Ошибка загрузки отзывов.'));
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('https://formspree.io/f/xpwrrqlk', {
+                method: 'POST',
+                body: new FormData(this),
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    showNotification('Сообщение успешно отправлено!');
+                    this.reset();
+                } else {
+                    showNotification('Ошибка отправки. Попробуйте позже.');
+                }
+            }).catch(error => {
+                showNotification('Ошибка отправки. Попробуйте позже.');
+            });
+        });
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const total = document.getElementById('totalPrice').textContent;
+            formData.append('total', total);
+            const cartItems = cart.map(item => `${item.productId} (${item.quantity} шт.)`).join(', ');
+            formData.append('items', cartItems);
+            fetch(`${BASE_URL}/api/orders`, {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    sendTelegramNotification(formData);
+                    showNotification('Заказ успешно оформлен! Перейдите к оплате.');
+                    this.reset();
+                    cart = [];
+                    updateCart();
+                    toggleCheckout();
+                    togglePayment();
+                } else {
+                    throw new Error('Formspree error');
+                }
+            }).catch(error => {
+                showNotification('Ошибка отправки заказа. Попробуйте позже.');
+            });
+        });
+
+        document.getElementById('bankTransferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const total = document.getElementById('totalPrice').textContent;
+            formData.append('total', total);
+            const cartItems = cart.map(item => `${item.productId} (${item.quantity} шт.)`).join(', ');
+            formData.append('items', cartItems);
+            fetch(`${BASE_URL}/api/bank-transfers`, {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    sendTelegramNotification(formData);
+                    showNotification('Данные перевода отправлены. Ожидайте подтверждения!');
+                    this.reset();
+                    cart = [];
+                    updateCart();
+                    togglePayment();
+                } else {
+                    showNotification('Ошибка отправки данных. Попробуйте позже.');
+                }
+            }).catch(error => {
+                showNotification('Ошибка отправки данных. Попробуйте позже.');
+            });
+        });
+
+        document.getElementById('reviewSubmitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch(`${BASE_URL}/api/reviews`, {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    showNotification('Отзыв успешно отправлен!');
+                    this.reset();
+                    toggleReviewForm();
+                    loadReviews();
+                } else {
+                    showNotification('Ошибка отправки отзыва. Попробуйте позже.');
+                }
+            }).catch(error => {
+                showNotification('Ошибка отправки отзыва. Попробуйте позже.');
+            });
+        });
+
+        function sendTelegramNotification(formData) {
+            const botToken = '7788170324:AAGspiYBdD3mN9XVB7ikbe3P_HiiRF6SXr8';
+            const chatId = '6238411163';
+            const name = formData.get('name');
+            const address = formData.get('address');
+            const phone = formData.get('phone');
+            const comment = formData.get('comment') || formData.get('transfer-comment') || '';
+            const delivery = formData.get('delivery');
+            const total = formData.get('total');
+            const items = formData.get('items');
+            const message = `🎉 Новый заказ от Techlygo!\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n🏠 Адрес: ${address}\n📦 Товары: ${items}\n🚚 Доставка: ${delivery || 'Не указана'}\n💰 Сумма: ${total}\n📝 Комментарий: ${comment}\n⏰ Время: ${new Date().toLocaleString()}\n👍 Проверяйте и связывайтесь!`;
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message })
+            }).catch(error => console.error('Ошибка отправки в Telegram:', error));
+        }
+
+        function saveCart() {
+            fetch(`${BASE_URL}/api/cart`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart })
+            }).catch(error => console.error('Ошибка сохранения корзины:', error));
+        }
+
+        const stripe = Stripe('your_stripe_publishable_key');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        document.getElementById('paymentStripe').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const total = parseFloat(document.getElementById('totalPrice').textContent.replace(' KGS', '')) * 100;
+            const progress = document.getElementById('paymentProgress');
+            progress.style.width = '50%';
+            try {
+                const { paymentIntent, error } = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                    billing_details: { name: document.getElementById('cardholder-name').value }
+                });
+                if (error) throw error;
+                const response = await fetch(`${BASE_URL}/create-payment-intent`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: total / 100 })
+                });
+                const { clientSecret } = await response.json();
+                const result = await stripe.confirmCardPayment(clientSecret);
+                if (result.paymentIntent.status === 'succeeded') {
+                    progress.style.width = '100%';
+                    document.getElementById('successMessage').textContent = 'Оплата через Stripe успешна!';
+                    document.getElementById('successMessage').style.display = 'block';
+                    cart = [];
+                    updateCart();
+                }
+            } catch (error) {
+                progress.style.width = '0';
+                alert('Ошибка оплаты: ' + error.message);
+            }
+        });
+
+        function initPayPalButton() {
+            paypal.Buttons({
+                createOrder: (data, actions) => {
+                    return fetch(`${BASE_URL}/create-paypal-order`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ amount: document.getElementById('totalPrice').textContent.replace(' KGS', '') })
+                    }).then(res => res.json()).then(data => data.approval_url);
+                },
+                onApprove: (data, actions) => {
+                    const progress = document.getElementById('paymentProgress');
+                    progress.style.width = '50%';
+                    return fetch(`${BASE_URL}/paypal-success?paymentId=${data.orderID}&PayerID=${data.payerID}`, {
+                        method: 'GET'
+                    }).then(res => {
+                        progress.style.width = '100%';
+                        document.getElementById('successMessage').textContent = 'Оплата через PayPal успешна!';
+                        document.getElementById('successMessage').style.display = 'block';
+                        cart = [];
+                        updateCart();
+                    });
+                },
+                onError: (err) => {
+                    document.getElementById('paymentProgress').style.width = '0';
+                    alert('Ошибка оплаты через PayPal');
+                }
+            }).render('#paypal-button-container');
+        }
+
+        function checkAdminPassword() {
+            const correctPassword = "Achievegoal1";
+            let password = prompt("Введите пароль администратора:");
+            return password === correctPassword;
+        }
+
+        function addProduct(event) {
+            event.preventDefault();
+            const name = document.getElementById('productName').value;
+            const image = document.getElementById('productImage').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value;
+            const date = new Date().toISOString().split('T')[0];
+
+            fetch(`${BASE_URL}/api/products`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, image, price, category, description, date })
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('addProductForm').reset();
+                    showNotification('Товар добавлен!');
+                    displayAdminProducts();
+                    refreshProducts();
+                }
+            }).catch(error => showNotification('Ошибка добавления товара.'));
+
+            <div id="products-container" class="products-grid">
+  <!-- Здесь будут карточки товаров -->
+  <p style="text-align: center; color: #aaa;">Загрузка товаров...</p>
+</div>
+        }
+
+
+        function displayAdminProducts() {
+            fetch(`${BASE_URL}/api/products`)
+                .then(response => response.json())
+                .then(products => {
+                    const productListAdmin = document.getElementById('productListAdmin');
+                    productListAdmin.innerHTML = products.map((product, index) => `
+                        <div class="product-card">
+                            <img src="${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>Цена: ${product.price} KGS</p>
+                            <p>${product.description}</p>
+                            <button onclick="editProduct(${index}, '${product._id}')">Редактировать</button>
+                            <button onclick="deleteProduct('${product._id}')">Удалить</button>
+                        </div>
+                    `).join('');
+                });
+        }
+
+        function editProduct(index, productId) {
+            const product = productsData[index];
+            const newName = prompt("Новое название:", product.name);
+            const newImage = prompt("Новый URL изображения:", product.image);
+            const newPrice = parseInt(prompt("Новая цена (KGS):", product.price));
+            const newCategory = prompt("Новая категория:", product.category);
+            const newDescription = prompt("Новое описание:", product.description);
+
+            if (newName && newImage && !isNaN(newPrice) && newCategory && newDescription) {
+                fetch(`${BASE_URL}/api/products/${productId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: newName, image: newImage, price: newPrice, category: newCategory, description: newDescription })
+                }).then(response => {
+                    if (response.ok) {
+                        showNotification('Товар обновлен!');
+                        displayAdminProducts();
+                        refreshProducts();
+                    }
+                });
+            }
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Удалить товар?')) {
+                fetch(`${BASE_URL}/api/products/${productId}`, {
+                    method: 'DELETE'
+                }).then(response => {
+                    if (response.ok) {
+                        showNotification('Товар удален!');
+                        displayAdminProducts();
+                        refreshProducts();
+                    }
+                });
+            }
+        }
+
+        window.onload = function() {
+            refreshProducts();
+            loadReviews();
+        };
+        
+    </script>
+    <script>
+async function loadProducts() {
+    try {
+        const response = await fetch("http://127.0.0.1:5000/products");
+        const products = await response.json();
+
+        let container = document.getElementById("products");
+        container.innerHTML = "";
+
+        products.forEach(p => {
+            let item = document.createElement("div");
+            item.style.border = "1px solid #444";
+            item.style.margin = "10px";
+            item.style.padding = "10px";
+            item.style.borderRadius = "8px";
+            item.style.background = "#1a1a2e";
+            item.style.color = "#fff";
+
+            item.innerHTML = `
+                <h3>${p.name}</h3>
+                <p>Цена: ${p.price} сом</p>
+                <button onclick="addToCart(${p.id})">Добавить в корзину</button>
+            `;
+            container.appendChild(item);
+        });
+    } catch (error) {
+        console.error("Ошибка загрузки товаров:", error);
+    }
+}
+
+async function addToCart(id) {
+    try {
+        const response = await fetch("http://127.0.0.1:5000/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: id })
+        });
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        console.error("Ошибка добавления:", error);
+    }
+}
+
+loadProducts();
+</script>
+<script>
+  // Функция загрузки товаров с бэкенда
+  async function loadProducts() {
+    try {
+      const response = await fetch('http://localhost:5000/api/products');
+      const products = await response.json();
+
+      const container = document.getElementById('products-container');
+      if (!container) return console.log('Не найден контейнер #products-container');
+
+      container.innerHTML = ''; // очищаем
+
+      if (products.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #fff;">Товаров пока нет 😔</p>';
+        return;
+      }
+
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card'; // добавь свой класс для стилей
+
+        card.innerHTML = `
+          <img src="${product.image || 'https://via.placeholder.com/300x300?text=No+Image'}" alt="${product.name}" class="product-image">
+          <h3>${product.name}</h3>
+          <p class="description">${product.description || ''}</p>
+          <div class="price">
+            ${product.oldPrice ? `<span class="old-price">${product.oldPrice} сом</span>` : ''}
+            <span class="current-price">${product.price} сом</span>
+          </div>
+          <button class="add-to-cart-btn" onclick="addToCart('${product._id}')">
+            В корзину 🛒
+          </button>
+        `;
+
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error('Ошибка загрузки товаров:', err);
+      document.getElementById('products-container').innerHTML = '<p style="color: red;">Ошибка соединения с сервером</p>';
+    }
+  }
+
+  // Загружаем товары при загрузке страницы
+  window.onload = loadProducts;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techlygo Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 188, 212, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 188, 212, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #0f172a;
+        }
+
+        .product-card h3 {
+            color: #fff;
+            margin: 20px 0 10px;
+            font-size: 20px;
+        }
+
+        .description {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            margin: 15px 0;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #64748b;
+            margin-right: 10px;
+        }
+
+        .current-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00BCD4;
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(45deg, #00BCD4, #8a2be2);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 188, 212, 0.3);
+        }
+
+        .cart-counter {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 12px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .quantity-controls button {
+            background: #e2e8f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <header class="bg-gray-800 shadow-md p-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-cyan-400">Techlygo Shop</h1>
+            <div class="relative">
+                <button onclick="showCart()" class="text-xl text-cyan-400 hover:text-cyan-300">
+                    Корзина 🛒
+                </button>
+                <span id="cart-counter" class="cart-counter hidden">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="products-grid" id="products-container">
+        <p class="text-center text-gray-400 col-span-full">Загрузка товаров...</p>
+    </main>
+
+    <!-- Модальное окно корзины -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-8 rounded-2xl max-w-lg w-full max-h-screen overflow-y-auto">
+            <h2 class="text-2xl font-bold mb-6 text-cyan-400">Корзина</h2>
+            <div id="cart-items" class="mb-6"></div>
+            <div class="text-xl font-bold mb-6 text-right" id="total-sum">Итого: 0 сом</div>
+
+            <div id="checkout-form" class="hidden">
+                <input type="text" id="client-name" placeholder="Ваше имя" required class="w-full p-3 mb-4 rounded bg-gray-700 border border-gray-600 focus:border-cyan-400 outline-none">
+                <input type="tel" id="client-phone" placeholder="Телефон +996..." required class="w-full p-3 mb-6 rounded bg-gray-700 border border-gray-600 focus:border-cyan-400 outline-none">
+                <button onclick="submitOrder()" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-4 rounded-full text-lg font-semibold hover:opacity-90">
+                    Отправить заказ
+                </button>
+            </div>
+
+            <div class="flex justify-between mt-6">
+                <button onclick="closeCart()" class="text-gray-400 hover:text-white">Закрыть</button>
+                <button onclick="toggleCheckout()" id="checkout-btn" class="bg-cyan-500 text-white px-6 py-3 rounded-full hidden">
+                    Оформить заказ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Корзина из localStorage
+        let cart = JSON.parse(localStorage.getItem('techlygo_cart') || '[]');
+
+        // Обновление счётчика в шапке
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-counter');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            badge.classList.toggle('hidden', totalItems === 0);
+        }
+
+        // Добавление в корзину
+        function addToCart(productId) {
+            fetch('http://localhost:5000/api/products')
+                .then(res => res.json())
+                .then(products => {
+                    const product = products.find(p => p._id === productId);
+                    if (!product) return alert('Товар не найден');
+
+                    const existing = cart.find(item => item._id === productId);
+                    if (existing) {
+                        existing.quantity += 1;
+                    } else {
+                        cart.push({ ...product, quantity: 1 });
+                    }
+
+                    localStorage.setItem('techlygo_cart', JSON.stringify(cart));
+                    updateCartBadge();
+                    alert(`${product.name} добавлен в корзину! 🛒`);
+                })
+                .catch(err => alert('Ошибка добавления в корзину'));
+        }
+
+        // Загрузка товаров с бэкенда
+        async function loadProducts() {
+            try {
+                const response = await fetch('http://localhost:5000/api/products');
+                if (!response.ok) throw new Error('Не удалось загрузить товары');
+                const products = await response.json();
+
+                const container = document.getElementById('products-container');
+                container.innerHTML = '';
+
+                if (products.length === 0) {
+                    container.innerHTML = '<p class="text-center text-gray-400 col-span-full">Товаров пока нет 😔</p>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+
+                    card.innerHTML = `
+                        <img src="${product.image || 'https://via.placeholder.com/300x300?text=No+Image'}" alt="${product.name}" class="product-image">
+                        <h3>${product.name}</h3>
+                        <p class="description">${product.description || 'Нет описания'}</p>
+                        <div class="price">
+                            ${product.oldPrice ? `<span class="old-price">${product.oldPrice} сом</span>` : ''}
+                            <span class="current-price">${product.price} сом</span>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${product._id}')">
+                            В корзину 🛒
+                        </button>
+                    `;
+
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                document.getElementById('products-container').innerHTML = 
+                    `<p class="text-center text-red-400 col-span-full">Ошибка загрузки товаров: ${err.message}</p>`;
+            }
+        }
+
+        // Отображение корзины
+        function showCart() {
+            const modal = document.getElementById('cart-modal');
+            const itemsDiv = document.getElementById('cart-items');
+            const totalSpan = document.getElementById('total-sum');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const checkoutForm = document.getElementById('checkout-form');
+
+            itemsDiv.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                itemsDiv.innerHTML = '<p class="text-center text-gray-400">Корзина пуста</p>';
+                checkoutBtn.classList.add('hidden');
+            } else {
+                cart.forEach((item, index) => {
+                    total += item.price * item.quantity;
+
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <div>
+                            <div class="font-semibold">${item.name}</div>
+                            <div class="text-sm text-gray-400">${item.price} сом × ${item.quantity}</div>
+                        </div>
+                        <div class="quantity-controls">
+                            <button onclick="changeQuantity(${index}, -1)">-</button>
+                            <span class="mx-3">${item.quantity}</span>
+                            <button onclick="changeQuantity(${index}, 1)">+</button>
+                        </div>
+                    `;
+                    itemsDiv.appendChild(div);
+                });
+
+                checkoutBtn.classList.remove('hidden');
+            }
+
+            totalSpan.textContent = `Итого: ${total} сом`;
+            checkoutForm.classList.add('hidden');
+            modal.classList.remove('hidden');
+        }
+
+        // Изменение количества
+        function changeQuantity(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('techlygo_cart', JSON.stringify(cart));
+            updateCartBadge();
+            showCart();
+        }
+
+        // Показать форму оформления
+        function toggleCheckout() {
+            document.getElementById('checkout-form').classList.remove('hidden');
+            document.getElementById('checkout-btn').classList.add('hidden');
+        }
+
+        // Отправка заказа
+        async function submitOrder() {
+            const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
+
+            if (!name || !phone) {
+                alert('Заполните имя и телефон!');
+                return;
+            }
+
+            const items = cart.map(item => ({
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity
+            }));
+
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            try {
+                const response = await fetch('http://localhost:5000/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone, items, total })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Заказ успешно отправлен! Скоро с вами свяжутся 🚀');
+                    cart = [];
+                    localStorage.removeItem('techlygo_cart');
+                    updateCartBadge();
+                    closeCart();
+                } else {
+                    alert(data.message || 'Ошибка при отправке заказа');
+                }
+            } catch (err) {
+                alert('Не удалось отправить заказ. Проверьте сервер.');
+            }
+        }
+
+        function closeCart() {
+            document.getElementById('cart-modal').classList.add('hidden');
+        }
+
+        // Инициализация
+        updateCartBadge();
+        loadProducts();
+    </script>
+</body>
+</html>

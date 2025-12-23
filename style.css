@@ -1,0 +1,130 @@
+body {
+    background-color: #f5f5f5; /* Нейтральный фон */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background: linear-gradient(90deg, #4a90e2, #50e3c2); /* Градиент для шапки */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    transition: transform 0.3s; /* Анимация при наведении */
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* Увеличение карточки */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    background: linear-gradient(45deg, #34c759, #28a745);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: linear-gradient(45deg, #28a745, #34c759);
+}
+.qr-section {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(145deg, #0f172a, #1e293b);
+  color: white;
+  border-radius: 20px;
+  margin: 60px auto;
+  max-width: 900px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.qr-section h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.qr-section p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #ccc;
+}
+
+.qr-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+}
+
+.qr-wrapper img {
+  width: 180px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+  transition: transform 0.4s ease;
+}
+
+.qr-wrapper img:hover {
+  transform: scale(1.05);
+}
+
+.qr-info {
+  max-width: 400px;
+  text-align: left;
+}
+
+.qr-info ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.qr-info ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.qr-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #00BCD4;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.qr-btn:hover {
+  background-color: #0097a7;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #00BCD4, #1AC0F0);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
