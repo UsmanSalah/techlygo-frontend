@@ -1305,7 +1305,7 @@ async function loadProducts() {
 
 async function addToCart(id) {
     try {
-        const response = await fetch("http://127.0.0.1:5000/cart", {
+        const response = await fetch("https://techlygo-backend.onrender.com", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: id })
@@ -1323,7 +1323,7 @@ loadProducts();
   // Функция загрузки товаров с бэкенда
   async function loadProducts() {
     try {
-      const response = await fetch('http://localhost:5000/api/products');
+      const response = await fetch('https://techlygo-backend.onrender.com');
       const products = await response.json();
 
       const container = document.getElementById('products-container');
@@ -1367,4 +1367,5 @@ loadProducts();
 </script>
 
 </body>
+
 </html>
